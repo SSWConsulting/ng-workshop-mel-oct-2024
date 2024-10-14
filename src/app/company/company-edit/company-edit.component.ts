@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Company } from '../company';
 
 type CompanyEditFormGroup = {
@@ -17,12 +17,16 @@ type CompanyEditFormGroup = {
 export class CompanyEditComponent {
   companyForm!: FormGroup<CompanyEditFormGroup>;
 
+  constructor(
+    private readonly fb: FormBuilder,
+  ) {}
+
   ngOnInit(): void {
-    this.companyForm = new FormGroup<CompanyEditFormGroup>({
-      id: new FormControl(null),
-      name: new FormControl('', [Validators.required, Validators.minLength(3)]),
-      email: new FormControl('', [Validators.required, Validators.email]),
-      phone: new FormControl(''),
+    this.companyForm = this.fb.group<CompanyEditFormGroup>({
+      id: this.fb.control(null),
+      name: this.fb.control('', [Validators.required, Validators.minLength(3)]),
+      email: this.fb.control('', [Validators.required, Validators.email]),
+      phone: this.fb.control(''),
     });
   }
 
