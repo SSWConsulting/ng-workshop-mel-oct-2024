@@ -14,6 +14,8 @@ import { Observable } from 'rxjs';
 
 type CompanyEditFormGroup = {
   [K in keyof Company]: FormControl<Company[K] | null>;
+} & {
+  checkPhone: FormControl<boolean | null>;
 };
 
 @Component({
@@ -42,11 +44,24 @@ export class CompanyEditComponent {
       id: this.fb.control(0),
       name: this.fb.control('', [Validators.required, Validators.minLength(3)]),
       email: this.fb.control('', [Validators.required, Validators.email]),
-      phone: this.fb.control(''),
+      checkPhone: this.fb.control(false),
+      phone: this.fb.control({ value: '', disabled: true }),
+    });
+
+    this.companyForm.controls.checkPhone.valueChanges.subscribe((v) =>{
+      const phoneControl = this.companyForm.controls.phone;
+      if (v) {
+        phoneControl.setValidators([Validators.required]);
+        phoneControl.enable();
+      } else {
+        phoneControl.clearValidators();
+        phoneControl.disable();
+      }
+      phoneControl.updateValueAndValidity();
     });
 
     if (!this.isNewCompany) {
-      this.companyService.getCompany(companyId).subscribe(company => {
+      this.companyService.getCompany(companyId).subscribe((company) => {
         this.companyForm.patchValue(company);
       });
     }
