@@ -1,7 +1,11 @@
-import { Component } from '@angular/core';
-import { Company } from '../company';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Company } from '../company';
+
+type CompanyEditFormGroup = {
+  [K in keyof Company]: FormControl<Company[K] | null>;
+}
 
 @Component({
   selector: 'fbc-company-edit',
@@ -11,10 +15,11 @@ import { CommonModule } from '@angular/common';
   styleUrl: './company-edit.component.scss',
 })
 export class CompanyEditComponent {
-  companyForm!: FormGroup;
+  companyForm!: FormGroup<CompanyEditFormGroup>;
 
   ngOnInit(): void {
-    this.companyForm = new FormGroup({
+    this.companyForm = new FormGroup<CompanyEditFormGroup>({
+      id: new FormControl(null),
       name: new FormControl('', [Validators.required, Validators.minLength(3)]),
       email: new FormControl('', [Validators.required, Validators.email]),
       phone: new FormControl(''),
