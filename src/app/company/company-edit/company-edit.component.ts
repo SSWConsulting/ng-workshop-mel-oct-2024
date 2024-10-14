@@ -11,6 +11,7 @@ import { Company } from '../company';
 import { CompanyService } from '../company.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { NgxMaskDirective } from 'ngx-mask';
 
 type CompanyEditFormGroup = {
   [K in keyof Company]: FormControl<Company[K] | null>;
@@ -21,7 +22,7 @@ type CompanyEditFormGroup = {
 @Component({
   selector: 'fbc-company-edit',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, NgxMaskDirective],
   templateUrl: './company-edit.component.html',
   styleUrl: './company-edit.component.scss',
 })
