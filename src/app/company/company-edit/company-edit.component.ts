@@ -48,7 +48,7 @@ export class CompanyEditComponent {
       phone: this.fb.control({ value: '', disabled: true }),
     });
 
-    this.companyForm.controls.checkPhone.valueChanges.subscribe((v) =>{
+    this.companyForm.controls.checkPhone.valueChanges.subscribe((v) => {
       const phoneControl = this.companyForm.controls.phone;
       if (v) {
         phoneControl.setValidators([Validators.required]);
@@ -67,14 +67,22 @@ export class CompanyEditComponent {
     }
   }
 
-  saveCompany() {
+  saveCompany(): void {
     this.companyForm.markAllAsTouched();
 
-    if (!this.companyForm.valid) {
+    // const companyValue = this.companyForm.value;
+    // const formIsValid = this.companyForm.valid;
+    const {
+      value: companyValue,
+      valid: formIsValid
+    } = this.companyForm;
+
+    const company = companyValue as Company;
+    console.log('Company:', company);
+
+    if (!formIsValid) {
       return;
     }
-
-    const company = this.companyForm.value as Company;
 
     let companySaveObservable: Observable<Company>;
 
