@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Company } from '../company';
 import { CompanyService } from '../company.service';
 
@@ -11,9 +12,8 @@ import { CompanyService } from '../company.service';
   styleUrl: './company-list.component.scss'
 })
 export class CompanyListComponent {
-  // private readonly companyService = inject(CompanyService);
 
-  companies: Company[] = [];
+  companies$!: Observable<Company[]>;
 
   constructor(
     private readonly companyService: CompanyService
@@ -21,11 +21,7 @@ export class CompanyListComponent {
   }
 
   ngOnInit(): void {
-    // this.companies = this.companyService.getCompanies();
-
-    this.companyService.getCompanies().subscribe(companies => {
-      this.companies = companies;
-    });
+    this.companies$ = this.companyService.getCompanies();
   }
 
 }
