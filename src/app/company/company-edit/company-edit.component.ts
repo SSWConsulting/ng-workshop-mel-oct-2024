@@ -10,6 +10,7 @@ import {
 import { Company } from '../company';
 import { CompanyService } from '../company.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 type CompanyEditFormGroup = {
   [K in keyof Company]: FormControl<Company[K] | null>;
@@ -45,7 +46,9 @@ export class CompanyEditComponent {
     });
 
     if (!this.isNewCompany) {
-      // TODO: load company and patch form
+      this.companyService.getCompany(companyId).subscribe(company => {
+        this.companyForm.patchValue(company);
+      });
     }
   }
 
@@ -58,12 +61,16 @@ export class CompanyEditComponent {
 
     const company = this.companyForm.value as Company;
 
+    let companySaveObservable: Observable<Company>;
+
     if (this.isNewCompany) {
-      this.companyService.addCompany(company).subscribe((_) => {
-        this.router.navigate(['/company/list']);
-      });
+      companySaveObservable = this.companyService.addCompany(company);
     } else {
-      throw new Error('Not implemented');
+      companySaveObservable = this.companyService.updateCompany(company);
     }
+
+    companySaveObservable.subscribe((_) => {
+      this.router.navigate(['/company/list']);
+    });
   }
 }
