@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Company } from '../company';
+import { CompanyService } from '../company.service';
 
 @Component({
   selector: 'fbc-company-list',
@@ -10,14 +11,21 @@ import { Company } from '../company';
   styleUrl: './company-list.component.scss'
 })
 export class CompanyListComponent {
+  // private readonly companyService = inject(CompanyService);
+
   companies: Company[] = [];
 
+  constructor(
+    private readonly companyService: CompanyService
+  ) {
+  }
+
   ngOnInit(): void {
-    this.companies = [
-      { name: 'Company 1', email: 'email1@company.com', phone: '1234567890' },
-      { name: 'Company 2', email: 'email2 @company.com', phone: '1234567890' },
-      { name: 'Company 3', email: 'email3@company.com', phone: '1234567890' },
-    ];
+    // this.companies = this.companyService.getCompanies();
+
+    this.companyService.getCompanies().subscribe(companies => {
+      this.companies = companies;
+    });
   }
 
 }
