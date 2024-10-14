@@ -24,4 +24,10 @@ export class CompanyListComponent {
     this.companies$ = this.companyService.getCompanies();
   }
 
+  deleteCompany(companyId: number): void {
+    this.companyService.deleteCompany(companyId).subscribe(_ => {
+      this.companies$ = this.companyService.getCompanies();
+    });
+  }
+
 }
