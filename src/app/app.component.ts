@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { ToastComponent } from './toast/toast.component';
 import { CompanyService } from './company/company.service';
 import { map } from 'rxjs';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'fbc-root',
@@ -19,4 +20,5 @@ export class AppComponent {
   companyCount$ = this.companiesService
     .getCompanies()
     .pipe(map((companies) => companies.length));
+  environmentName = environment.name;
 }

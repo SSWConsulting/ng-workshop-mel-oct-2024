@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, Observable, tap } from 'rxjs';
 import { Company } from './company';
 import { ToastService } from '../toast.service';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -13,8 +14,7 @@ export class CompanyService {
 
   private companies$ = new BehaviorSubject<Company[]>([]);
 
-  private readonly API_BASE =
-    'https://app-fbc-crm-api-prod.azurewebsites.net/api';
+  private readonly API_BASE = environment.API_BASE;
 
   constructor() {
     this.loadCompanies();
