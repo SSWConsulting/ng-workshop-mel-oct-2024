@@ -8,16 +8,6 @@ export class AppConfigService {
   public API_BASE = '';
 
   loadAppConfig() {
-    return timer(2000)
-      .pipe(
-        take(1),
-        tap((_) => {
-          this.API_BASE = 'https://app-fbc-crm-api-prod.azurewebsites.net/api';
-        }),
-      )
-      .toPromise()
-      .then(as => {
-        console.log('loadAppConfig done');
-      });
+    this.API_BASE = 'https://app-fbc-crm-api-prod.azurewebsites.net/api';
   }
 }

@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Company } from '../company';
 import { CompanyService } from '../company.service';
 import { CompanyTableComponent } from '../company-table/company-table.component';
 import { RouterLink } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { selectCompanies } from '../../+state/company.selectors';
 
 @Component({
   selector: 'fbc-company-list',
@@ -14,15 +16,10 @@ import { RouterLink } from '@angular/router';
   styleUrl: './company-list.component.scss',
 })
 export class CompanyListComponent {
-  companies$!: Observable<Company[]>;
-
-  constructor(private readonly companyService: CompanyService) {}
-
-  ngOnInit(): void {
-    this.companies$ = this.companyService.getCompanies();
-  }
+  private readonly store = inject(Store);
+  companies$ = this.store.select(selectCompanies)
 
   deleteCompany(companyId: number): void {
-    this.companyService.deleteCompany(companyId).subscribe();
+    // this.companyService.deleteCompany(companyId).subscribe();
   }
 }

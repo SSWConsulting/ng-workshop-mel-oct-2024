@@ -6,6 +6,9 @@ import { ToastComponent } from './toast/toast.component';
 import { CompanyService } from './company/company.service';
 import { map } from 'rxjs';
 import { environment } from '../environments/environment';
+import { Store } from '@ngrx/store';
+import { selectCompanyCount } from './+state/company.selectors';
+import { CompanyActions } from './+state/company.actions';
 
 @Component({
   selector: 'fbc-root',
@@ -16,9 +19,11 @@ import { environment } from '../environments/environment';
 })
 export class AppComponent {
   title = 'Melbourne Angular Workshop';
-  companiesService = inject(CompanyService);
-  companyCount$ = this.companiesService
-    .getCompanies()
-    .pipe(map((companies) => companies.length));
+  store = inject(Store);
+  companyCount$ = this.store.select(selectCompanyCount);
   environmentName = environment.name;
+
+  ngOnInit() {
+    this.store.dispatch(CompanyActions.loadCompanies());
+  }
 }
