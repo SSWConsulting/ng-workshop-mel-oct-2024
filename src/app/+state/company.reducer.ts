@@ -18,4 +18,8 @@ export const reducer = createReducer(
     ...oldState,
     companies: action.companies,
   })),
+  on(CompanyActions.deleteCompanySuccess, (oldState, action) => ({
+    ...oldState,
+    companies: oldState.companies.filter((company) => company.id !== action.id),
+  })),
 );

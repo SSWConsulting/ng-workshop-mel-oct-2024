@@ -6,5 +6,7 @@ export const CompanyActions = createActionGroup({
   events: {
     'Load Companies': emptyProps(),
     'Load Companies Success': props<{ companies: Company[] }>(),
+    'Delete Company': props<{ id: number }>(),
+    'Delete Company Success': props<{ id: number }>(),
   }
 });

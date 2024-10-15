@@ -7,6 +7,7 @@ import { CompanyTableComponent } from '../company-table/company-table.component'
 import { RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { selectCompanies } from '../../+state/company.selectors';
+import { CompanyActions } from '../../+state/company.actions';
 
 @Component({
   selector: 'fbc-company-list',
@@ -20,6 +21,6 @@ export class CompanyListComponent {
   companies$ = this.store.select(selectCompanies)
 
   deleteCompany(companyId: number): void {
-    // this.companyService.deleteCompany(companyId).subscribe();
+    this.store.dispatch(CompanyActions.deleteCompany({ id: companyId }));
   }
 }

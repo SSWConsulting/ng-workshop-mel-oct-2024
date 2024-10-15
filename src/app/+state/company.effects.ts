@@ -13,7 +13,22 @@ export class CompanyEffects {
     this.actions$.pipe(
       ofType(CompanyActions.loadCompanies),
       switchMap(() => this.companyService.getCompanies()),
-      map(companies => CompanyActions.loadCompaniesSuccess({ companies })),
+      map((companies) => CompanyActions.loadCompaniesSuccess({ companies })),
+    ),
+  );
+
+  deleteCompany$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(CompanyActions.deleteCompany),
+      switchMap((action) => this.companyService.deleteCompany(action.id)),
+      map((company) => CompanyActions.deleteCompanySuccess({ id: company.id })),
+    ),
+  );
+
+  deleteCompanySuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(CompanyActions.deleteCompanySuccess),
+      map(() => CompanyActions.loadCompanies()),
     ),
   );
 }
