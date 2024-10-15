@@ -1,15 +1,36 @@
 import { Routes } from '@angular/router';
-import { CompanyListComponent } from './company/company-list/company-list.component';
-import { CompanyEditComponent } from './company/company-edit/company-edit.component';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'company/list' },
   {
+    path: 'admin',
+    loadChildren: () =>
+      import('./admin/admin.module').then((m) => m.AdminModule),
+  },
+  {
     path: 'company',
     children: [
-      { path: 'list', component: CompanyListComponent },
-      { path: 'edit/:id', component: CompanyEditComponent },
-      { path: 'add', component: CompanyEditComponent },
+      {
+        path: 'list',
+        loadComponent: () =>
+          import('./company/company-list/company-list.component').then(
+            (m) => m.CompanyListComponent,
+          ),
+      },
+      {
+        path: 'edit/:id',
+        loadComponent: () =>
+          import('./company/company-edit/company-edit.component').then(
+            (m) => m.CompanyEditComponent,
+          ),
+      },
+      {
+        path: 'add',
+        loadComponent: () =>
+          import('./company/company-edit/company-edit.component').then(
+            (m) => m.CompanyEditComponent,
+          ),
+      },
     ],
   },
 ];
