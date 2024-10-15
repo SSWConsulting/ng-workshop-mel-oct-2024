@@ -4,17 +4,19 @@ import { BehaviorSubject, catchError, Observable, tap } from 'rxjs';
 import { Company } from './company';
 import { ToastService } from '../toast.service';
 import { environment } from '../../environments/environment';
+import { AppConfigService } from '../appconfig.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CompanyService {
+  private appConfigService = inject(AppConfigService);
   private httpClient = inject(HttpClient);
   private toastService = inject(ToastService);
 
   private companies$ = new BehaviorSubject<Company[]>([]);
 
-  private readonly API_BASE = environment.API_BASE;
+  private readonly API_BASE = this.appConfigService.API_BASE;
 
   constructor() {
     this.loadCompanies();
